@@ -1,6 +1,5 @@
 options:
   logging: CLOUD_LOGGING_ONLY
-  log_bucket: gs://custom-curve-431820-e9_cloudbuild
 
 steps:
 # Paso 1: Construir el microservicio "unlock"
