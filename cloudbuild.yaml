@@ -1,3 +1,7 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+  logsBucket: gs://custom-curve-431820-e9_cloudbuild
+
 steps:
 # Paso 1: Construir el microservicio "unlock"
 - name: 'gcr.io/cloud-builders/docker'
