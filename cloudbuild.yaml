@@ -1,0 +1,30 @@
+steps:
+# Paso 1: Construir el microservicio "unlock"
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/custom-curve-431820-e9/unlock-app', './unlock']
+  dir: './unlock'
+
+# Paso 2: Desplegar el microservicio "unlock"
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run', 'deploy', 'unlock-app-service', 
+         '--image', 'gcr.io/custom-curve-431820-e9/unlock-app', 
+         '--platform', 'managed', 
+         '--region', 'southamerica-west1', 
+         '--allow-unauthenticated']
+
+# Paso 3: Construir el microservicio "pdf2txt"
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/custom-curve-431820-e9/pdf2txt-app', './pdf2txt']
+  dir: './pdf2txt'
+
+# Paso 4: Desplegar el microservicio "pdf2txt"
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run', 'deploy', 'pdf2txt-app-service', 
+         '--image', 'gcr.io/custom-curve-431820-e9/pdf2txt-app', 
+         '--platform', 'managed', 
+         '--region', 'southamerica-west1', 
+         '--allow-unauthenticated']
+
+images:
+- 'gcr.io/custom-curve-431820-e9/unlock-app'
+- 'gcr.io/custom-curve-431820-e9/pdf2txt-app'
