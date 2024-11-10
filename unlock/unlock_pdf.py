@@ -29,7 +29,7 @@ def unblock_pdf(input_file_path, password):
     output_pdf_name = f"{base_name}_unlocked{ext}"
     
     storage_client = storage.Client()
-    bucket_name = 'custom-curve-431820-e9_cloudbuild'
+    bucket_name = 'account-statements_customers'
     
     # Descargar el archivo PDF del bucket
     blob = storage_client.bucket(bucket_name).blob(input_file_path)

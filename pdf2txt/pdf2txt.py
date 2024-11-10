@@ -14,7 +14,7 @@ def extract_text_from_pdf(input_file_path):
 
 def save_text_to_file(text, output_path):
     storage_client = storage.Client()
-    bucket_name = 'custom-curve-431820-e9_cloudbuild'
+    bucket_name = 'account-statements_customers'
     blob = storage_client.bucket(bucket_name).blob(output_path)
     
     with open('/tmp/temp.txt', 'w', encoding='utf-8') as file:
@@ -40,7 +40,7 @@ def pdf2txt_route():
 
     # Descarga del archivo PDF desde Google Cloud Storage
     storage_client = storage.Client()
-    bucket_name = 'custom-curve-431820-e9_cloudbuild'
+    bucket_name = 'account-statements_customers'
     blob = storage_client.bucket(bucket_name).blob(input_file_path)
     
     with open('/tmp/temp.pdf', 'wb') as file:
