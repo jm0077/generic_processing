@@ -3,6 +3,7 @@ import PyPDF2
 import os
 from flask import Flask, request, jsonify
 import config
+import re
 
 app = Flask(__name__)
 
@@ -25,10 +26,27 @@ def unlock():
     else:
         return jsonify({"error": "Error al procesar el PDF"}), 400
 
+def get_output_path(input_path):
+    """
+    Convierte la ruta de entrada en la ruta de salida correspondiente
+    Ejemplo:
+    Entrada: uuid/Falabella/Step0_Input/archivo.pdf
+    Salida:  uuid/Falabella/Step1_Unlocked/archivo.pdf
+    """
+    # Reemplazar Step0_Input por Step1_Unlocked en la ruta
+    if 'Step0_Input' in input_path:
+        return input_path.replace('Step0_Input', 'Step1_Unlocked')
+    
+    # Si por alguna razón no encuentra Step0_Input, construir la ruta usando el nombre del archivo
+    filename = os.path.basename(input_path)
+    parent_dir = os.path.dirname(input_path)
+    base_dir = parent_dir.split('/Falabella/')[0]
+    return f"{base_dir}/Falabella/Step1_Unlocked/{filename}"
+
 def process_pdf(input_file_path, password):
     try:
-        base_name, ext = os.path.splitext(os.path.basename(input_file_path))
-        output_pdf_name = f"{base_name}_unlocked{ext}"
+        # Obtener la ruta de salida basada en la ruta de entrada
+        output_blob_path = get_output_path(input_file_path)
         
         storage_client = storage.Client()
         bucket = storage_client.bucket(config.GCS_BUCKET_NAME)
@@ -58,7 +76,6 @@ def process_pdf(input_file_path, password):
                 pdf_writer.write(output_file)
             
             # Subir el archivo procesado al bucket
-            output_blob_path = os.path.join(config.OUTPUT_FOLDER, output_pdf_name)
             output_blob = bucket.blob(output_blob_path)
             output_blob.upload_from_filename(config.TEMP_UNLOCKED_PATH)
             
