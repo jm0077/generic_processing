@@ -1,49 +1,59 @@
 options:
   logging: CLOUD_LOGGING_ONLY
+
 steps:
 # Paso 1: Construir el microservicio "extractUser"
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/northern-hope-449920-t0/extract-user-banco-app', '.']
+  args: ['build', '-t', 'gcr.io/{PROJECT_ID}/extract-user-banco-app', '.']
   dir: './extractUser'
+
 # Paso 2: Subir la imagen de "extractUser" al Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/northern-hope-449920-t0/extract-user-banco-app']
+  args: ['push', 'gcr.io/{PROJECT_ID}/extract-user-banco-app']
+
 # Paso 3: Desplegar el microservicio "extractUser"
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['run', 'deploy', 'extract-user-banco-app-service', 
-         '--image', 'gcr.io/northern-hope-449920-t0/extract-user-banco-app', 
+         '--image', 'gcr.io/{PROJECT_ID}/extract-user-banco-app', 
          '--platform', 'managed', 
          '--region', 'southamerica-west1', 
          '--allow-unauthenticated']
+
 # Paso 4: Construir el microservicio "unlock"
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/northern-hope-449920-t0/unlock-app', '.']
+  args: ['build', '-t', 'gcr.io/{PROJECT_ID}/unlock-app', '.']
   dir: './unlock'
+
 # Paso 5: Subir la imagen de "unlock" al Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/northern-hope-449920-t0/unlock-app']
+  args: ['push', 'gcr.io/{PROJECT_ID}/unlock-app']
+
 # Paso 6: Desplegar el microservicio "unlock"
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['run', 'deploy', 'unlock-app-service', 
-         '--image', 'gcr.io/northern-hope-449920-t0/unlock-app', 
+         '--image', 'gcr.io/{PROJECT_ID}/unlock-app', 
          '--platform', 'managed', 
          '--region', 'southamerica-west1', 
          '--allow-unauthenticated']
+
 # Paso 7: Construir el microservicio "pdf2txt"
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/northern-hope-449920-t0/pdf2txt-app', '.']
+  args: ['build', '-t', 'gcr.io/{PROJECT_ID}/pdf2txt-app', '.']
   dir: './pdf2txt'
+
 # Paso 8: Subir la imagen de "pdf2txt" al Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/northern-hope-449920-t0/pdf2txt-app']
+  args: ['push', 'gcr.io/{PROJECT_ID}/pdf2txt-app']
+
 # Paso 9: Desplegar el microservicio "pdf2txt"
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['run', 'deploy', 'pdf2txt-app-service', 
-         '--image', 'gcr.io/northern-hope-449920-t0/pdf2txt-app', 
+         '--image', 'gcr.io/{PROJECT_ID}/pdf2txt-app', 
          '--platform', 'managed', 
          '--region', 'southamerica-west1', 
          '--allow-unauthenticated']
+
 images:
-- 'gcr.io/northern-hope-449920-t0/extract-user-banco-app'
-- 'gcr.io/northern-hope-449920-t0/unlock-app'
-- 'gcr.io/northern-hope-449920-t0/pdf2txt-app'
+- 'gcr.io/{PROJECT_ID}/extract-user-banco-app'
+- 'gcr.io/{PROJECT_ID}/unlock-app'
+- 'gcr.io/{PROJECT_ID}/pdf2txt-app'
