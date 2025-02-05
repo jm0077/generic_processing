@@ -1,14 +1,14 @@
 options:
   logging: CLOUD_LOGGING_ONLY
 steps:
-# Paso 1: Construir el microservicio "extractUser"
+# Paso 1: Construir el microservicio "extract-user-banco"
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/northern-hope-449920-t0/extract-user-banco-app', '.']
-  dir: './extractUser'
-# Paso 2: Subir la imagen de "extractUser" al Container Registry
+  dir: './extract-user-banco'
+# Paso 2: Subir la imagen de "extract-user-banco" al Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/northern-hope-449920-t0/extract-user-banco-app']
-# Paso 3: Desplegar el microservicio "extractUser"
+# Paso 3: Desplegar el microservicio "extract-user-banco"
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['run', 'deploy', 'extract-user-banco-app-service', 
          '--image', 'gcr.io/northern-hope-449920-t0/extract-user-banco-app', 
