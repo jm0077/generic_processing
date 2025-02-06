@@ -32,7 +32,7 @@ class Config:
     TEMP_UNLOCKED_PATH = '/tmp/unlocked.pdf'
 
     # Google Cloud Storage Configuration
-    GCS_BUCKET_NAME = 'account-statements_customers'
+    GCS_BUCKET_NAME = 'account-statements-customers-northern-hope-449920-t0'
 
     # Keycloak Configuration
     KEYCLOAK_SERVER_URL = client_secrets['web']['issuer'].rstrip('/realms/master')

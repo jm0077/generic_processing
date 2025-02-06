@@ -1,5 +1,5 @@
 # Google Cloud Storage Configuration
-GCS_BUCKET_NAME = 'account-statements_customers'
+GCS_BUCKET_NAME = 'account-statements-customers-northern-hope-449920-t0'
 
 # Flask Configuration
 FLASK_HOST = '0.0.0.0'
